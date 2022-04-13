@@ -1,0 +1,374 @@
+/* body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
+    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
+    monospace;
+} */
+
+:root {
+  --sidebar-width: 240px;
+  --text-color: rgb(50, 50, 50);
+  --background-color: #ffffff;
+  --light-background-color: #f4f4f4;
+  --nav-bar-color: #ffffff;
+  --selected-color: rgb(229, 241, 253);
+  --action-text-color: #ffffff;
+  --action-color: rgb(58, 99, 197);
+  --border-color: darkgray;
+}
+html {
+  height: 100vh;
+}
+
+body {
+  background-color: var(--background-color);
+  margin: 0;
+  height: 100%;
+  overflow-y: hidden;
+  color: var(--text-color);
+}
+
+button,
+input[type="submit"] {
+  cursor: pointer;
+}
+
+textarea:focus,
+input:focus {
+  outline: none;
+}
+
+/* media */
+@media all and (max-width: 500px) {
+  /* .left {
+    display: none;
+  } */
+  .only-view-small-screen {
+    display: block !important;
+  }
+  .modal-background {
+    background-color: #ffffff !important;
+  }
+  .additional-modal-div {
+    position: absolute;
+    top: 25%;
+    left: 50%;
+  }
+}
+
+@media all and (min-width: 500px) {
+  .modal-popup {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    -webkit-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+  }
+}
+
+.whole-note {
+  display: flex;
+  height: 100vh;
+}
+
+.left {
+  width: var(--sidebar-width);
+  border-right: solid 1px #cdcdcd;
+}
+.right {
+  flex: 1;
+}
+
+.main-title-box {
+  display: flex;
+  border-top: solid 1px var(--border-color);
+  border-bottom: solid 1px var(--border-color);
+  border-left: solid 1px var(--border-color);
+  padding: 3px;
+  justify-content: space-between;
+}
+
+button {
+  border: 0;
+  outline: 0;
+  background-color: #ffffff;
+}
+
+.profile-picture-button {
+  background-image: url("img/profile.jpg");
+  border-radius: 70%;
+  width: 38px;
+  height: 38px;
+  background-position: center;
+  background-size: cover;
+}
+
+.my-notes-title {
+  padding-left: 30px;
+  padding-right: 30px;
+  font-size: 18px;
+}
+
+.contents {
+  margin: 0;
+  padding: 2px;
+  padding-right: 0;
+  padding-left: 0;
+}
+
+.a-content {
+  border-bottom: dotted 1px black;
+  padding: 5px;
+}
+.search-icon {
+  float: left;
+}
+.contents-in-search {
+  border-bottom: dotted 1px black;
+  padding-top: 5px;
+  padding-bottom: 7px;
+  padding-left: 9px;
+  padding-right: 5px;
+}
+
+.time-and-date {
+  font-size: 10px;
+  padding-left: 1px;
+  margin: 0;
+}
+
+.content-title {
+  margin: 0;
+  padding-left: 1px;
+  font-size: 17px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-weight: 500;
+}
+
+.search-input {
+  border: 0;
+  outline: 0;
+  padding-left: 8px;
+  font-size: 13px;
+  margin: 3px;
+}
+
+.top-icons {
+  display: flex;
+  /* width: 100%; */
+  border-top: solid 1px var(--border-color);
+  border-bottom: solid 1px var(--border-color);
+  padding: 10px;
+  justify-content: space-between;
+}
+
+.clickable {
+  cursor: pointer;
+}
+
+.clicked {
+  background-color: var(--selected-color);
+}
+
+.only-view-small-screen {
+  display: none;
+}
+
+.div-for-text {
+  height: 100%;
+}
+
+#texts {
+  padding: 0px;
+  margin: 0px;
+  height: 100%;
+}
+
+.text-input {
+  border: none;
+  resize: none;
+  outline: none;
+  margin: 3px;
+  padding-top: 8px;
+  font-size: 14px;
+  width: 100%;
+  height: 100%;
+  font-family: monospace;
+  background-color: #ffffff;
+}
+
+.modal-background {
+  background-color: rgba(126, 126, 126, 0.5);
+  display: none;
+  position: fixed;
+  z-index: 1;
+  top: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.modal-popup {
+  background-color: #ffffff;
+  border-radius: 10px;
+  width: 400px;
+  margin: auto;
+}
+
+.edit-profile {
+  text-align: center;
+  margin: 10px;
+  padding-top: 5px;
+  padding-bottom: 5px;
+}
+
+.edit-profile div {
+  padding: 2px;
+}
+
+.edit-profile-title {
+  display: flex;
+  text-align: left;
+  font-size: 18px;
+  font-weight: bolder;
+  justify-content: space-between;
+}
+
+.edit-profile-pic {
+  padding: 5px;
+  display: flex;
+  justify-content: space-between;
+  margin-top: 7px;
+  margin-bottom: 5px;
+  margin-left: 12px;
+  margin-right: 7px;
+  font-size: 15px;
+}
+
+.onemore-edit-profile-pic {
+  padding: 0px;
+}
+
+.profile-picture {
+  border-radius: 70%;
+  width: 40px;
+  height: 40px;
+}
+
+.add-new-image {
+  margin-top: 11px;
+  padding: 0px;
+}
+
+.remove-image {
+  margin-top: 11px;
+  padding: 0px;
+}
+
+.edit-profile-info {
+  text-align: left;
+}
+
+.edit-profile-info input {
+  padding: 3px;
+  font-size: 14px;
+  -webkit-box-sizing: border-box;
+  width: 100%;
+}
+
+.edit-profile-info select {
+  padding: 4px;
+  font-size: 14px;
+  box-shadow: none;
+  width: 100%;
+}
+
+.edit-profile-save-logout {
+  padding: 5px !important;
+  padding-top: 10px !important;
+  display: flex;
+  justify-content: space-between;
+  text-align: center;
+  font-size: 14px;
+}
+
+.b-edit-profile-save {
+  padding: 7px;
+  padding-left: 17px;
+  padding-right: 17px;
+  border-radius: 8px;
+  background-color: var(--action-color);
+  color: var(--action-text-color);
+  font-weight: 200;
+  border: 0;
+  outline: 0;
+}
+
+.b-edit-profile-logout {
+  padding-top: 8px !important;
+}
+
+.wholeTagBox {
+  display: flex;
+  background-color: var(--light-background-color);
+  padding: 5px;
+  position: sticky;
+  bottom: 0px;
+  width: 100%;
+}
+
+.ReactTags__tags {
+  display: inline;
+  float: left;
+  flex-wrap: wrap;
+}
+
+.ReactTags__tagInput {
+  float: left;
+}
+
+.ReactTags__selected {
+  display: inline;
+}
+
+.ReactTags__tag {
+  font-size: 13px;
+  text-align: center;
+  margin-top: 2px;
+  float: left;
+}
+
+.tag-wrapper {
+  float: left;
+  padding: 5px;
+  border: 1px solid #cdcdcd;
+  border-radius: 2px;
+  margin: 2px;
+}
+
+.ReactTags__remove {
+  margin-left: 5px;
+  border: 1px solid #383838;
+  border-radius: 2px;
+  background-color: var(--light-background-color);
+  font-size: 12px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+.ReactTags__tagInputField {
+  float: left;
+  border: 0;
+  outline: 0;
+  font-size: 13px;
+  padding: 6px;
+  margin-top: 2px;
+}
