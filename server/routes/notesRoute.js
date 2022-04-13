@@ -21,7 +21,7 @@ router.post(
     console.log("Posted with body: " + JSON.stringify(req.body));
     const newNote = new Note({
       textTitle: req.body.textTitle,
-      date: req.body.date,
+      date: new Date(),
       text: req.body.text,
       tags: req.body.tags,
       writer: req.body.writer,

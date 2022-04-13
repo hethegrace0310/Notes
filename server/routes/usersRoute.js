@@ -2,6 +2,44 @@ const express = require("express");
 const router = express.Router();
 const mongoose = require("mongoose");
 
+//get
+router.get(
+  "/user",
+  wrapAsync(async function (req, res, next) {
+    const id = req.session.userId;
+    if (mongoose.isValidObjectId(id)) {
+      const user = await User.findById(id);
+      if (user) {
+        res.json(user);
+        return;
+      } else {
+        throw new Error("User Not Found");
+      }
+    } else {
+      throw new Error("Invalid user Id");
+    }
+  })
+);
+
+router.put(
+  "/user",
+  requireLogin,
+  wrapAsync(async function (req, res) {
+    const id = req.session.userId;
+    console.log("PUT with id: " + id + ", body: " + JSON.stringify(req.body));
+    await User.findByIdAndUpdate(
+      id,
+      {
+        name: req.body.name,
+        email: req.body.email,
+        colorScheme: req.body.colorScheme,
+      },
+      { runValidators: true }
+    );
+    res.sendStatus(204);
+  })
+);
+
 router.post(
   "/register",
   wrapAsync(async function (req, res) {

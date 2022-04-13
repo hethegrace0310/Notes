@@ -6,18 +6,18 @@ import Modal from "./components/Modal";
 
 const App = () => {
   const [notes, setNotes] = useState([
-    {
-      textTitle: "CSE 316",
-      date: new Date("Mon Apr 4 2022 23:02:18 GMT+0900"),
-      text: "CSE 316",
-      tags: [],
-    },
-    {
-      textTitle: "Another wrapping line example! This is another text",
-      date: new Date("Mon Apr 4 2022 22:02:18 GMT+0900"),
-      text: "Another wrapping line example! This is another text",
-      tags: [],
-    },
+    // {
+    //   textTitle: "CSE 316",
+    //   date: new Date("Mon Apr 4 2022 23:02:18 GMT+0900"),
+    //   text: "CSE 316",
+    //   tags: [],
+    // },
+    // {
+    //   textTitle: "Another wrapping line example! This is another text",
+    //   date: new Date("Mon Apr 4 2022 22:02:18 GMT+0900"),
+    //   text: "Another wrapping line example! This is another text",
+    //   tags: [],
+    // },
   ]);
 
   const [seletedId, setSeletedId] = useState(-1);
