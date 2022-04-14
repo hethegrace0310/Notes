@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router();
 const mongoose = require("mongoose");
 const Note = require("../models/Note");
+const User = require("../models/User");
 
 const { wrapAsync } = require("../utils/helper");
 
@@ -9,7 +10,10 @@ const { wrapAsync } = require("../utils/helper");
 router.get(
   "/notes",
   wrapAsync(async function (req, res) {
-    const notes = await Note.find({}).sort({ lastUpatedDate: 1 });
+    const notes = await Note.find({}).sort({
+      date: -1,
+    });
+    // console.log(notes);
     res.json(notes);
   })
 );
@@ -19,12 +23,16 @@ router.post(
   "/notes",
   wrapAsync(async function (req, res) {
     console.log("Posted with body: " + JSON.stringify(req.body));
+    let writer = req.body.writer;
+    if (typeof writer === "string") {
+      writer = await User.findOne({ name: writer });
+    }
     const newNote = new Note({
       textTitle: req.body.textTitle,
       date: new Date(),
       text: req.body.text,
       tags: req.body.tags,
-      writer: req.body.writer,
+      writer: writer,
     });
 
     await newNote.save();
@@ -35,7 +43,6 @@ router.post(
 //update a note
 router.put(
   "/notes/:id",
-  isAgent,
   wrapAsync(async function (req, res) {
     const id = req.params.id;
     console.log("PUT with id: " + id + ", body: " + JSON.stringify(req.body));
@@ -56,11 +63,12 @@ router.put(
 
 router.delete(
   "/notes/:id",
-  isAgent,
   wrapAsync(async function (req, res) {
     const id = req.params.id;
-    const result = await Note.findByIdAndDelete(id);
+    const result = await Note.findByIdAndDelete(mongoose.Types.ObjectId(id));
     console.log("Deleted successfully: " + result);
     res.json(result);
   })
 );
+
+module.exports = router;

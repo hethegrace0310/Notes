@@ -4,9 +4,11 @@ const defaultHeaders = {
   },
 };
 
+const backendURL = "http://localhost:5005";
+
 // GET: /notes
 export const getNotesAPI = () => {
-  return fetch(`/api/notes`, {
+  return fetch(`${backendURL}/api/notes`, {
     ...defaultHeaders,
   })
     .then(checkStatus)
@@ -15,7 +17,7 @@ export const getNotesAPI = () => {
 
 // POST: /notes
 export const createNoteAPI = (textTitle, text, tags, writer) => {
-  return fetch(`/api/notes`, {
+  return fetch(`${backendURL}/api/notes`, {
     ...defaultHeaders,
     method: "POST",
     body: JSON.stringify({ textTitle, text, tags, writer }),
@@ -26,7 +28,7 @@ export const createNoteAPI = (textTitle, text, tags, writer) => {
 
 // PUT: /notes/:id
 export const updateNoteAPI = (note) => {
-  return fetch(`/api/notes/${note._id}`, {
+  return fetch(`${backendURL}/api/notes/${note._id}`, {
     ...defaultHeaders,
     method: "PUT",
     body: JSON.stringify(note),
@@ -35,7 +37,7 @@ export const updateNoteAPI = (note) => {
 
 //DELETE: /notes/:id
 export const deleteNoteAPI = (id) => {
-  return fetch(`/api/notes/${note._id}`, {
+  return fetch(`${backendURL}/api/notes/${id}`, {
     ...defaultHeaders,
     method: "DELETE",
   })
@@ -44,6 +46,7 @@ export const deleteNoteAPI = (id) => {
 };
 
 function checkStatus(response) {
+  console.log(response);
   if (response.status >= 200 && response.status < 300) {
     return response;
   } else {

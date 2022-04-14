@@ -3,6 +3,7 @@ import { useState } from "react";
 import Left from "./components/Left";
 import Right from "./components/Right";
 import Modal from "./components/Modal";
+import { createNoteAPI, deleteNoteAPI, getNotesAPI } from "./api/noteAPI";
 
 const App = () => {
   const [notes, setNotes] = useState([
@@ -20,6 +21,14 @@ const App = () => {
     // },
   ]);
 
+  const [profile, setProfile] = useState({
+    userName: "",
+    userEmail: "",
+    userColorScheme: "",
+  });
+
+  console.log(notes);
+
   const [seletedId, setSeletedId] = useState(-1);
 
   const [windowWidth, setWindowWidth] = useState(0);
@@ -30,7 +39,7 @@ const App = () => {
   const layoutRef = useRef(null);
 
   //addNewNote
-  const addNewNote = (text) => {
+  const addNewNote = async (text) => {
     const newNote = {
       textTitle: "New Note",
       date: new Date(),
@@ -46,29 +55,40 @@ const App = () => {
     console.log(newNoteList);
 
     setSearchText("");
+
+    await createNoteAPI("New Note", "", [], profile.userName);
   };
 
   //deleteNote
-  const deleteNote = () => {
+  const deleteNote = async () => {
     if (seletedId === notes.length - 1) {
       setSeletedId(notes.length - 2);
     }
+
+    await deleteNoteAPI(notes[seletedId]._id);
 
     setNotes([...notes.filter((eachNote, idx) => idx != seletedId)]);
   };
 
   //saving notes to local storage
   useEffect(() => {
-    const savedNotes = JSON.parse(localStorage.getItem("notes-data"));
+    const fetchData = async () => {
+      // const savedNotes = JSON.parse(localStorage.getItem("notes-data"));
+      const fetchedNote = await getNotesAPI();
+      // console.log("----fetched----");
+      // console.log(fetchedNote);
+      // console.log("----fetched----");
 
-    if (savedNotes) {
-      setNotes(savedNotes);
-    }
+      if (fetchedNote) {
+        setNotes(fetchedNote);
+      }
+    };
+    fetchData();
   }, []);
 
-  useEffect(() => {
-    localStorage.setItem("notes-data", JSON.stringify(notes));
-  }, [notes]);
+  // useEffect(() => {
+  //   localStorage.setItem("notes-data", JSON.stringify(notes));
+  // }, [notes]);
 
   const getWidth = () => {
     if (layoutRef.current) {
@@ -114,7 +134,7 @@ const App = () => {
           setVisibleSidebar={setVisibleSidebar}
         />
       )}
-      <Modal />
+      <Modal profile={profile} setProfile={setProfile} />
     </div>
   );
 };

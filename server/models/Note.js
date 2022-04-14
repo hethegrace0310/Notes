@@ -6,7 +6,7 @@ var NoteSchema = new Schema({
   textTitle: { type: String },
   date: { type: Date, default: new Date() },
   text: { type: String },
-  tags: { type: [String] },
+  tags: { type: [Object] },
   writer: { type: Schema.Types.ObjectId, ref: "User", required: false },
 });
 

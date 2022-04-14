@@ -3,7 +3,7 @@ const defaultHeaders = {
     "Content-Type": "application/json; charset=UTF-8",
   },
 };
-
+const backendURL = "http://localhost:5005";
 // POST: /register
 // export const register = (name, email, password) => {
 //   return fetch(`/api/register`, {
@@ -27,7 +27,7 @@ const defaultHeaders = {
 
 // GET: /user
 export const getUserAPI = () => {
-  return fetch(`/api/user`, {
+  return fetch(`${backendURL}/api/user`, {
     ...defaultHeaders,
   })
     .then(checkStatus)
@@ -36,7 +36,7 @@ export const getUserAPI = () => {
 
 // PUT: /user
 export const updateUserAPI = (user) => {
-  return fetch(`/api/user`, {
+  return fetch(`${backendURL}/api/user`, {
     ...defaultHeaders,
     method: "PUT",
     body: JSON.stringify(user),

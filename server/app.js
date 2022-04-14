@@ -1,10 +1,12 @@
 const express = require("express");
+const cors = require("cors");
 const usersRoutes = require("./routes/usersRoute");
 const notesRoutes = require("./routes/notesRoute");
 
 const app = express();
 const bodyParser = require("body-parser");
 app.use(bodyParser.json());
+app.use(cors());
 
 const mongoose = require("mongoose");
 const session = require("express-session");
@@ -17,13 +19,15 @@ mongoose.connect(dbURL, { useNewUrlParser: true, useUnifiedTopology: true });
 var db = mongoose.connection;
 db.on("error", console.error.bind(console, "MongoDB connection error:"));
 
+const sessionSecret = "Haeun Park";
+
 const store = MongoStore.create({
   mongoUrl: dbURL,
   secret: sessionSecret,
   touchAfter: 24 * 60 * 60,
 });
 
-mongoose.set("useFindAndModify", false);
+// mongoose.set("useFindAndModify", false);
 
 const sessionConfig = {
   store,

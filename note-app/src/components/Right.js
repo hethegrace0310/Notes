@@ -1,3 +1,4 @@
+import { updateNoteAPI } from "../api/noteAPI";
 import TagInput from "./TagInput";
 
 const Right = ({
@@ -9,7 +10,7 @@ const Right = ({
   setSeletedId,
   setVisibleSidebar,
 }) => {
-  const saveNote = (newText) => {
+  const saveNote = async (newText) => {
     let forSplitText = newText;
     let splitNewText = forSplitText.split("\n");
     let firstlineForTextTitle = splitNewText[0];
@@ -28,6 +29,13 @@ const Right = ({
             }
       ),
     ];
+
+    await updateNoteAPI({
+      ...notes[seletedId],
+      textTitle: firstlineForTextTitle,
+      text: newText,
+      date: new Date(),
+    });
 
     const orderedDate = [...newNoteList].sort(
       (a, b) => new Date(b.date) - new Date(a.date)

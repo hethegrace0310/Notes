@@ -1,6 +1,9 @@
 const express = require("express");
 const router = express.Router();
 const mongoose = require("mongoose");
+const User = require("../models/User");
+
+const { wrapAsync } = require("../utils/helper");
 
 //get
 router.get(
@@ -23,7 +26,6 @@ router.get(
 
 router.put(
   "/user",
-  requireLogin,
   wrapAsync(async function (req, res) {
     const id = req.session.userId;
     console.log("PUT with id: " + id + ", body: " + JSON.stringify(req.body));

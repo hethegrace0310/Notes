@@ -38,6 +38,10 @@ const TagInput = ({ currentId, notes, setNotes }) => {
 
     setNotes(draggedNotes);
   };
+  // console.log("---------");
+  // console.log(notes[currentId]);
+  // console.log(currentId);
+  // console.log("---------");
 
   return (
     <>

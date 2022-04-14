@@ -1,16 +1,10 @@
 import { useState } from "react";
 import React, { useEffect } from "react";
 
-const Modal = () => {
+const Modal = ({ profile, setProfile }) => {
   const closeModal = () => {
     document.getElementById("modal-background").style.display = "none";
   };
-
-  const [profile, setProfile] = useState({
-    userName: "",
-    userEmail: "",
-    userColorScheme: "",
-  });
 
   const saveUserName = (changeUserName) => {
     setProfile({
@@ -33,7 +27,7 @@ const Modal = () => {
     });
   };
 
-  //save Profile to local storage
+  //save Profile
   const saveWholeProfile = () => {
     localStorage.setItem("profile-data", JSON.stringify(profile));
   };
