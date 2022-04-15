@@ -1,7 +1,52 @@
 import { useState } from "react";
 import React, { useEffect } from "react";
+import { getCurrentUserAPI, updateUserAPI } from "../api/userAPI";
+
+const DEFAULT_SOL_ID = "62584d5ca227c82e9c3c4b0d";
 
 const Modal = ({ profile, setProfile }) => {
+  useEffect(() => {
+    let id = localStorage.getItem("userId");
+    if (!id) {
+      id = DEFAULT_SOL_ID;
+      localStorage.setItem("userId", DEFAULT_SOL_ID);
+    }
+    function fetchData() {
+      getCurrentUserAPI(id)
+        .then((profile) => {
+          setProfile(profile);
+        })
+        .catch((err) => {
+          console.error("Error retrieving note data: " + err);
+        });
+    }
+    fetchData();
+  }, []);
+
+  const handleChangeProfile = (e) => {
+    //Update PUT
+    setProfile((prevValues) => ({
+      ...prevValues,
+      [e.target.name]: e.target.value,
+    }));
+  };
+  const onSave = async (e) => {
+    e.preventDefault();
+    await updateUserAPI({ ...profile, _id: DEFAULT_SOL_ID })
+      .then((response) => {
+        console.log("Updated user on the server");
+      })
+      .catch((err) => {
+        console.log(profile);
+        console.error("Error updating user data: " + err);
+      });
+    closeModal();
+    console.log(profile);
+  };
+  // const closeModal = () => {
+  //   document.getElementById("editP").style.display = "none";
+  // };
+
   const closeModal = () => {
     document.getElementById("modal-background").style.display = "none";
   };
@@ -9,36 +54,53 @@ const Modal = ({ profile, setProfile }) => {
   const saveUserName = (changeUserName) => {
     setProfile({
       ...profile,
-      userName: changeUserName,
+      name: changeUserName,
     });
   };
 
   const saveUserEmail = (changeUserEmail) => {
     setProfile({
       ...profile,
-      userEmail: changeUserEmail,
+      email: changeUserEmail,
     });
   };
 
   const saveUserColorScheme = (changeUserColor) => {
     setProfile({
       ...profile,
-      userColorScheme: changeUserColor,
+      colorScheme: changeUserColor,
     });
   };
 
-  //save Profile
-  const saveWholeProfile = () => {
-    localStorage.setItem("profile-data", JSON.stringify(profile));
-  };
+  // //save Profile
+  // const saveWholeProfile = () => {
+  //   // localStorage.setItem("profile-data", JSON.stringify(profile));
+  //   /**
+  //    *
+  //    */
 
-  useEffect(() => {
-    const savedProfile = JSON.parse(localStorage.getItem("profile-data"));
+  //   useEffect(() => {
+  //     //retreiving all formValues GET
+  //     function fetchData() {
+  //       getCurrentUserAPI()
+  //         .then((profile) => {
+  //           setProfile(profile);
+  //         })
+  //         .catch((err) => {
+  //           console.error("Error retrieving note data: " + err);
+  //         });
+  //     }
+  //     fetchData();
+  //   }, []);
+  // };
 
-    if (savedProfile) {
-      setProfile(savedProfile);
-    }
-  }, []);
+  // useEffect(() => {
+  //   const savedProfile = JSON.parse(localStorage.getItem("profile-data"));
+
+  //   if (savedProfile) {
+  //     setProfile(savedProfile);
+  //   }
+  // }, []);
 
   return (
     <div className="modal-background" id="modal-background">
@@ -70,10 +132,8 @@ const Modal = ({ profile, setProfile }) => {
                   <input
                     className="edit-profile-info-name"
                     type="text"
-                    value={profile?.userName || ""}
-                    onChange={(e) => {
-                      saveUserName(e.currentTarget.value);
-                    }}
+                    value={profile?.name || ""}
+                    onChange={(e) => saveUserName(e.target.value)}
                   />
                 </div>
                 <div>
@@ -81,19 +141,15 @@ const Modal = ({ profile, setProfile }) => {
                   <input
                     className="edit-profile-info-email"
                     type="text"
-                    value={profile?.userEmail || ""}
-                    onChange={(e) => {
-                      saveUserEmail(e.currentTarget.value);
-                    }}
+                    value={profile?.email || ""}
+                    onChange={(e) => saveUserEmail(e.target.value)}
                   />
                 </div>
                 <div>
                   <div className="edit-profile-info-color">Color Scheme</div>
                   <select
-                    value={profile?.userColorScheme || ""}
-                    onChange={(e) => {
-                      saveUserColorScheme(e.currentTarget.value);
-                    }}
+                    value={profile?.colorScheme || ""}
+                    onChange={(e) => saveUserColorScheme(e.target.value)}
                   >
                     <option value="Light">Light</option>
                     <option value="Dark">Dark</option>
@@ -106,7 +162,7 @@ const Modal = ({ profile, setProfile }) => {
                   type="submit"
                   value="Save"
                   className="b-edit-profile-save"
-                  onClick={saveWholeProfile}
+                  onClick={onSave}
                 />
                 <div className="b-edit-profile-logout clickable">Logout</div>
               </div>

@@ -22,9 +22,9 @@ const App = () => {
   ]);
 
   const [profile, setProfile] = useState({
-    userName: "",
-    userEmail: "",
-    userColorScheme: "",
+    name: "",
+    email: "",
+    colorScheme: "",
   });
 
   console.log(notes);
@@ -37,6 +37,10 @@ const App = () => {
   const [searchText, setSearchText] = useState("");
 
   const layoutRef = useRef(null);
+
+  // useEffect(() => {
+  //   Session.set("userId", profile);
+  // }, [profile]);
 
   //addNewNote
   const addNewNote = async (text) => {
@@ -56,7 +60,7 @@ const App = () => {
 
     setSearchText("");
 
-    await createNoteAPI("New Note", "", [], profile.userName);
+    await createNoteAPI("New Note", "", [], profile.name);
   };
 
   //deleteNote

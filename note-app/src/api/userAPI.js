@@ -34,6 +34,15 @@ export const getUserAPI = () => {
     .then(parseJSON);
 };
 
+// GER: /user/currentuser
+export const getCurrentUserAPI = (id) => {
+  return fetch(`${backendURL}/api/user/${id}`, {
+    ...defaultHeaders,
+  })
+    .then(checkStatus)
+    .then(parseJSON);
+};
+
 // PUT: /user
 export const updateUserAPI = (user) => {
   return fetch(`${backendURL}/api/user`, {

@@ -10,6 +10,7 @@ router.get(
   "/user",
   wrapAsync(async function (req, res, next) {
     const id = req.session.userId;
+    console.log(id);
     if (mongoose.isValidObjectId(id)) {
       const user = await User.findById(id);
       if (user) {
@@ -24,17 +25,48 @@ router.get(
   })
 );
 
+//get current user
+router.get(
+  "/user/:id",
+  wrapAsync(async function (req, res, next) {
+    const id = req.params.id;
+    console.log(id);
+    const _id = mongoose.Types.ObjectId(id);
+    if (mongoose.isValidObjectId(id)) {
+      // const user = await User.findById(id);
+      const user = await User.findOne({ _id: _id });
+      if (user) {
+        res.json(user);
+        return;
+      } else {
+        throw new Error("User Not Found");
+      }
+    } else {
+      throw new Error("Invalid user Id");
+    }
+  })
+);
+
+router.get(
+  "/users",
+  wrapAsync(async function (req, res, next) {
+    const users = await User.find({});
+    res.json(users);
+  })
+);
+
 router.put(
   "/user",
   wrapAsync(async function (req, res) {
-    const id = req.session.userId;
+    const id = req.body._id;
     console.log("PUT with id: " + id + ", body: " + JSON.stringify(req.body));
+    const colorScheme = req.body.colorScheme === "light" ? "Light" : "Dark";
     await User.findByIdAndUpdate(
       id,
       {
         name: req.body.name,
         email: req.body.email,
-        colorScheme: req.body.colorScheme,
+        colorScheme,
       },
       { runValidators: true }
     );
