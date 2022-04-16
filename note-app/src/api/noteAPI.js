@@ -16,11 +16,13 @@ export const getNotesAPI = () => {
 };
 
 // POST: /notes
-export const createNoteAPI = (textTitle, text, tags, writer) => {
+// export const createNoteAPI = (textTitle, text, tags, writer) => {
+export const createNoteAPI = (textTitle, text, tags) => {
   return fetch(`${backendURL}/api/notes`, {
     ...defaultHeaders,
     method: "POST",
-    body: JSON.stringify({ textTitle, text, tags, writer }),
+    body: JSON.stringify({ textTitle, text, tags }),
+    // body: JSON.stringify({ textTitle, text, tags, writer }),
   })
     .then(checkStatus)
     .then(parseJSON);
@@ -58,5 +60,6 @@ function checkStatus(response) {
 }
 
 function parseJSON(response) {
+  console.log(response);
   return response.json();
 }

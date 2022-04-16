@@ -1,4 +1,4 @@
-const Note = ({ date, text, textTitle, onClick, isSelected }) => {
+const Note = ({ lastUpdatedDate, text, textTitle, onClick, isSelected }) => {
   // console.log(isSelected)
   const showText = () => {
     document.getElementById("left").style.display = "none";
@@ -11,7 +11,7 @@ const Note = ({ date, text, textTitle, onClick, isSelected }) => {
       onClick={onClick}
     >
       <div className="content-title">{textTitle}</div>
-      <div className="time-and-date">{date}</div>
+      <div className="time-and-date">{lastUpdatedDate}</div>
     </div>
   );
 };

@@ -6,7 +6,6 @@ const Right = ({
   notes,
   setNotes,
   seletedId,
-  // getTimeAndDate,
   setSeletedId,
   setVisibleSidebar,
 }) => {
@@ -20,12 +19,18 @@ const Right = ({
         idx != seletedId
           ? note
           : newText == ""
-          ? { ...note, text: "", textTitle: "New Note", date: new Date() }
+          ? {
+              ...note,
+              text: "",
+              textTitle: "New Note",
+              lastUpdatedDate: new Date(),
+              tags: [],
+            }
           : {
               ...note,
               text: newText,
               textTitle: firstlineForTextTitle,
-              date: new Date(),
+              lastUpdatedDate: new Date(),
             }
       ),
     ];
@@ -34,11 +39,11 @@ const Right = ({
       ...notes[seletedId],
       textTitle: firstlineForTextTitle,
       text: newText,
-      date: new Date(),
+      lastUpdatedDate: new Date(),
     });
 
     const orderedDate = [...newNoteList].sort(
-      (a, b) => new Date(b.date) - new Date(a.date)
+      (a, b) => new Date(b.lastUpdatedDate) - new Date(a.lastUpdatedDate)
     );
     // console.log(orderedDate);
     setNotes(orderedDate);

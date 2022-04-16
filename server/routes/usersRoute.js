@@ -60,13 +60,13 @@ router.put(
   wrapAsync(async function (req, res) {
     const id = req.body._id;
     console.log("PUT with id: " + id + ", body: " + JSON.stringify(req.body));
-    const colorScheme = req.body.colorScheme === "light" ? "Light" : "Dark";
+    const colorScheme = req.body.colorScheme === "Light" ? "Light" : "Dark";
     await User.findByIdAndUpdate(
       id,
       {
         name: req.body.name,
         email: req.body.email,
-        colorScheme,
+        colorScheme: colorScheme,
       },
       { runValidators: true }
     );

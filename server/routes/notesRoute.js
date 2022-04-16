@@ -11,7 +11,7 @@ router.get(
   "/notes",
   wrapAsync(async function (req, res) {
     const notes = await Note.find({}).sort({
-      date: -1,
+      lastUpdatedDate: -1,
     });
     // console.log(notes);
     res.json(notes);
@@ -23,16 +23,16 @@ router.post(
   "/notes",
   wrapAsync(async function (req, res) {
     console.log("Posted with body: " + JSON.stringify(req.body));
-    let writer = req.body.writer;
-    if (typeof writer === "string") {
-      writer = await User.findOne({ name: writer });
-    }
+    // let writer = req.body.writer;
+    // if (typeof writer === "string") {
+    //   writer = await User.findOne({ name: writer });
+    // }
     const newNote = new Note({
       textTitle: req.body.textTitle,
-      date: new Date(),
+      lastUpdatedDate: new Date(),
       text: req.body.text,
       tags: req.body.tags,
-      writer: writer,
+      // writer: writer,
     });
 
     await newNote.save();
@@ -51,7 +51,7 @@ router.put(
       id,
       {
         textTitle: req.body.textTitle,
-        date: req.body.date,
+        lastUpdatedDate: req.body.lastUpdatedDate,
         text: req.body.text,
         tags: req.body.tags,
       },

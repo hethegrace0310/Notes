@@ -46,21 +46,20 @@ const App = () => {
   const addNewNote = async (text) => {
     const newNote = {
       textTitle: "New Note",
-      date: new Date(),
+      lastUpdatedDate: new Date(),
       text: "",
       tags: [],
     };
 
-    const newNoteList = [newNote, ...notes];
-
-    setNotes(newNoteList);
-
     setSeletedId(0);
-    console.log(newNoteList);
 
     setSearchText("");
 
-    await createNoteAPI("New Note", "", [], profile.name);
+    const returnedNote = await createNoteAPI("New Note", "", []);
+    console.log(returnedNote);
+
+    const newNoteList = [returnedNote, ...notes];
+    setNotes(newNoteList);
   };
 
   //deleteNote
@@ -130,10 +129,11 @@ const App = () => {
       {((windowWidth <= 500 && !visibleSidebar) || windowWidth > 500) && (
         <Right
           deleteNote={deleteNote}
-          notes={notes}
+          notes={notes.filter((note) =>
+            note.text.toLowerCase().includes(searchText)
+          )}
           setNotes={setNotes}
           seletedId={seletedId}
-          // getTimeAndDate={getTimeAndDate}
           setSeletedId={setSeletedId}
           setVisibleSidebar={setVisibleSidebar}
         />

@@ -1,5 +1,6 @@
 import React from "react";
 import { WithContext as ReactTags } from "react-tag-input";
+import { updateNoteAPI } from "../api/noteAPI";
 
 const KeyCodes = {
   comma: 188,
@@ -16,6 +17,7 @@ const TagInput = ({ currentId, notes, setNotes }) => {
     const deletedNote = { ...notes[currentId], tags: deletedTags };
     deletedNotes[currentId] = deletedNote;
     setNotes(deletedNotes);
+    updateNoteAPI(deletedNote);
   };
 
   const handleAddition = (tag) => {
@@ -24,6 +26,7 @@ const TagInput = ({ currentId, notes, setNotes }) => {
     const addedNote = { ...notes[currentId], tags: addedTags };
     addedNotes[currentId] = addedNote;
     setNotes(addedNotes);
+    updateNoteAPI(addedNote);
   };
 
   const handleDrag = (tag, currPos, newPos) => {
@@ -35,8 +38,8 @@ const TagInput = ({ currentId, notes, setNotes }) => {
     const draggedNotes = [...notes];
     const draggedNote = { ...notes[currentId], tags: draggedTags };
     draggedNotes[currentId] = draggedNote;
-
     setNotes(draggedNotes);
+    updateNoteAPI(draggedNote);
   };
   // console.log("---------");
   // console.log(notes[currentId]);

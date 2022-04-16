@@ -66,6 +66,7 @@ const Modal = ({ profile, setProfile }) => {
   };
 
   const saveUserColorScheme = (changeUserColor) => {
+    console.log(changeUserColor);
     setProfile({
       ...profile,
       colorScheme: changeUserColor,

@@ -18,7 +18,6 @@ const Left = ({
 
   //getTimeAndDate
   const getTimeAndDate = (today) => {
-    // let today = new Date();
     if (typeof today === "string") {
       today = new Date(today);
     }
@@ -79,7 +78,7 @@ const Left = ({
             <Note
               key={`note-${idx}`}
               textTitle={note.textTitle}
-              date={getTimeAndDate(note.date)}
+              lastUpdatedDate={getTimeAndDate(note.lastUpdatedDate)}
               text={note.text}
               onClick={() => {
                 setSeletedId(idx);
