@@ -16,7 +16,6 @@ const Left = ({
     document.getElementById("modal-background").style.display = "block";
   };
 
-  //getTimeAndDate
   const getTimeAndDate = (today) => {
     if (typeof today === "string") {
       today = new Date(today);
