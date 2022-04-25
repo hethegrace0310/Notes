@@ -3,6 +3,7 @@ const router = express.Router();
 const mongoose = require("mongoose");
 const Note = require("../models/Note");
 const User = require("../models/User");
+const { isLoggedIn, isAgent } = require("../middleware/auth");
 
 const { wrapAsync } = require("../utils/helper");
 
@@ -22,7 +23,7 @@ router.get(
 router.post(
   "/notes",
   wrapAsync(async function (req, res) {
-    console.log("Posted with body: " + JSON.stringify(req.body));
+    // console.log("Posted with body: " + JSON.stringify(req.body));
     // let writer = req.body.writer;
     // if (typeof writer === "string") {
     //   writer = await User.findOne({ name: writer });
@@ -36,7 +37,7 @@ router.post(
     });
 
     await newNote.save();
-    res.json(newNote);
+    res.json(newNote); //newNote object를 json 형식으로 바꿔서 보내준다.
   })
 );
 
@@ -45,7 +46,7 @@ router.put(
   "/notes/:id",
   wrapAsync(async function (req, res) {
     const id = req.params.id;
-    console.log("PUT with id: " + id + ", body: " + JSON.stringify(req.body));
+    // console.log("PUT with id: " + id + ", body: " + JSON.stringify(req.body));
 
     await Note.findByIdAndUpdate(
       id,
@@ -66,7 +67,7 @@ router.delete(
   wrapAsync(async function (req, res) {
     const id = req.params.id;
     const result = await Note.findByIdAndDelete(mongoose.Types.ObjectId(id));
-    console.log("Deleted successfully: " + result);
+    // console.log("Deleted successfully: " + result);
     res.json(result);
   })
 );

@@ -3,23 +3,13 @@ import { useState } from "react";
 import Left from "./components/Left";
 import Right from "./components/Right";
 import Modal from "./components/Modal";
+import Login from "./components/Login";
 import { createNoteAPI, deleteNoteAPI, getNotesAPI } from "./api/noteAPI";
+import Signup from "./components/SignUp";
+import SignUp from "./components/SignUp";
 
 const App = () => {
-  const [notes, setNotes] = useState([
-    // {
-    //   textTitle: "CSE 316",
-    //   date: new Date("Mon Apr 4 2022 23:02:18 GMT+0900"),
-    //   text: "CSE 316",
-    //   tags: [],
-    // },
-    // {
-    //   textTitle: "Another wrapping line example! This is another text",
-    //   date: new Date("Mon Apr 4 2022 22:02:18 GMT+0900"),
-    //   text: "Another wrapping line example! This is another text",
-    //   tags: [],
-    // },
-  ]);
+  const [notes, setNotes] = useState([]);
 
   const [profile, setProfile] = useState({
     name: "",
@@ -37,10 +27,6 @@ const App = () => {
   const [searchText, setSearchText] = useState("");
 
   const layoutRef = useRef(null);
-
-  // useEffect(() => {
-  //   Session.set("userId", profile);
-  // }, [profile]);
 
   //addNewNote
   const addNewNote = async (text) => {
@@ -76,11 +62,7 @@ const App = () => {
   //saving notes to local storage
   useEffect(() => {
     const fetchData = async () => {
-      // const savedNotes = JSON.parse(localStorage.getItem("notes-data"));
       const fetchedNote = await getNotesAPI();
-      // console.log("----fetched----");
-      // console.log(fetchedNote);
-      // console.log("----fetched----");
 
       if (fetchedNote) {
         setNotes(fetchedNote);
@@ -112,7 +94,7 @@ const App = () => {
 
   return (
     <div className="whole-note" id="whole-note" ref={layoutRef}>
-      {((windowWidth <= 500 && visibleSidebar) || windowWidth > 500) && (
+      {/* {((windowWidth <= 500 && visibleSidebar) || windowWidth > 500) && (
         <Left
           notes={notes.filter((note) =>
             note.text.toLowerCase().includes(searchText)
@@ -138,7 +120,9 @@ const App = () => {
           setVisibleSidebar={setVisibleSidebar}
         />
       )}
-      <Modal profile={profile} setProfile={setProfile} />
+      <Modal profile={profile} setProfile={setProfile} /> */}
+      <Login />
+      <SignUp />
     </div>
   );
 };

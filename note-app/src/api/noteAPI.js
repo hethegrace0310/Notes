@@ -19,6 +19,7 @@ export const getNotesAPI = () => {
 // export const createNoteAPI = (textTitle, text, tags, writer) => {
 export const createNoteAPI = (textTitle, text, tags) => {
   return fetch(`${backendURL}/api/notes`, {
+    //${backendURL}/api/notes`로 post 요청 날리는거임
     ...defaultHeaders,
     method: "POST",
     body: JSON.stringify({ textTitle, text, tags }),
@@ -61,5 +62,5 @@ function checkStatus(response) {
 
 function parseJSON(response) {
   console.log(response);
-  return response.json();
+  return response.json(); //response중에 json 응답만 걸러준다.
 }

@@ -61,6 +61,15 @@ input:focus {
     top: 25%;
     left: 50%;
   }
+
+  .signup-background{
+    background-color: #ffffff !important;
+  }
+  .signup{
+    display: block !important;
+    text-align: -webkit-center;
+    }
+
 }
 
 @media all and (min-width: 500px) {
@@ -372,3 +381,131 @@ button {
   padding: 6px;
   margin-top: 2px;
 }
+
+
+
+/*Log in*/
+.login{
+  background-color: var(--light-background-color);
+  display: flex;
+  height: 100vh;
+  width: 100vw;
+  justify-content: center;
+  align-items: center;
+}
+.title{
+  text-align: center;
+  padding: 5px;
+}
+.title-notes{
+font-size:xx-large;
+font-weight: bolder;
+padding: 15px;
+}
+.title-descrition{
+  font-size:large;
+  font-weight: bolder;
+  padding: 15px;
+}
+
+.white-box{
+  background-color: #ffffff;
+  border-radius: 10px;
+  padding: 10px;
+}
+
+.inputs input{
+  -webkit-box-sizing: border-box;
+  width: 100%;
+  margin: 0px;
+} 
+.login-email-wrap{
+  margin-bottom: 10px;
+}
+
+.login-button{
+  font-size: 15px;
+  -webkit-box-sizing: border-box;
+  width: 100%;
+  background-color: var(--action-color);
+  text-align: center;
+  padding: 7px;
+  border-radius: 10px;
+  color: #ffffff;
+  margin-top: 15px;
+  margin-bottom: 15px;
+}
+
+.login-signup-button-wrap{
+  text-align: -webkit-center;
+}
+
+.login-signup-button{
+  font-size: 15px;
+  background-color: #275D16;
+  text-align: center;
+  display:inline-block;
+  padding: 10px;
+  padding-left: 25px;
+  padding-right: 25px;
+  border-radius: 10px;
+  color: #ffffff;
+  margin: 15px;
+}
+
+
+.signup-background{
+  background-color: rgba(126, 126, 126, 0.5);
+  display: none;
+  position: fixed;
+  z-index: 1;
+}
+.signup{
+  display: flex;
+  height: 100vh;
+  width: 100vw;
+  justify-content: center;
+  align-items: center;
+}
+
+.signup-white-box{
+  width: 350px;
+  background-color: #ffffff;
+  border-radius: 10px;
+  padding: 10px;
+}
+
+.signup-title{
+  display: flex;
+  text-align: left;
+  font-size: 20px;
+  font-weight:bolder;
+  justify-content: space-between;
+  margin-bottom: 10px;
+  padding-top: 5px;
+  padding-bottom: 5px;
+}
+
+.signup-input-wrap{
+  padding-bottom: 7px;
+}
+
+.signup-inputs input{
+  -webkit-box-sizing: border-box;
+  width: 100%;
+  padding: 3px;
+}
+
+.signup-name{
+  float: left;
+}
+
+.signup-email{
+  float: left;
+}
+
+.signup-password{
+  float: left;
+}
+
+

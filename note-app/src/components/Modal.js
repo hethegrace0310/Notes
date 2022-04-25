@@ -43,9 +43,6 @@ const Modal = ({ profile, setProfile }) => {
     closeModal();
     console.log(profile);
   };
-  // const closeModal = () => {
-  //   document.getElementById("editP").style.display = "none";
-  // };
 
   const closeModal = () => {
     document.getElementById("modal-background").style.display = "none";
@@ -72,36 +69,6 @@ const Modal = ({ profile, setProfile }) => {
       colorScheme: changeUserColor,
     });
   };
-
-  // //save Profile
-  // const saveWholeProfile = () => {
-  //   // localStorage.setItem("profile-data", JSON.stringify(profile));
-  //   /**
-  //    *
-  //    */
-
-  //   useEffect(() => {
-  //     //retreiving all formValues GET
-  //     function fetchData() {
-  //       getCurrentUserAPI()
-  //         .then((profile) => {
-  //           setProfile(profile);
-  //         })
-  //         .catch((err) => {
-  //           console.error("Error retrieving note data: " + err);
-  //         });
-  //     }
-  //     fetchData();
-  //   }, []);
-  // };
-
-  // useEffect(() => {
-  //   const savedProfile = JSON.parse(localStorage.getItem("profile-data"));
-
-  //   if (savedProfile) {
-  //     setProfile(savedProfile);
-  //   }
-  // }, []);
 
   return (
     <div className="modal-background" id="modal-background">

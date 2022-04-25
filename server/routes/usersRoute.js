@@ -7,11 +7,12 @@ const { wrapAsync } = require("../utils/helper");
 
 //get
 router.get(
-  "/user",
+  "/user", //relative path
   wrapAsync(async function (req, res, next) {
-    const id = req.session.userId;
-    console.log(id);
+    const id = req.session.userId; //쿠키에 들어 있ㅡ seesion key를 기반으로 session에서 user id 가져옴
+    // console.log(id);
     if (mongoose.isValidObjectId(id)) {
+      //id가 mongoose에서 valid한지 검사
       const user = await User.findById(id);
       if (user) {
         res.json(user);
@@ -30,8 +31,8 @@ router.get(
   "/user/:id",
   wrapAsync(async function (req, res, next) {
     const id = req.params.id;
-    console.log(id);
-    const _id = mongoose.Types.ObjectId(id);
+    // console.log(id);
+    const _id = mongoose.Types.ObjectId(id); ///mongoose의 objectId형태로 바꿔줌
     if (mongoose.isValidObjectId(id)) {
       // const user = await User.findById(id);
       const user = await User.findOne({ _id: _id });
@@ -47,13 +48,13 @@ router.get(
   })
 );
 
-router.get(
-  "/users",
-  wrapAsync(async function (req, res, next) {
-    const users = await User.find({});
-    res.json(users);
-  })
-);
+// router.get(
+//   "/users",
+//   wrapAsync(async function (req, res, next) {
+//     const users = await User.find({});
+//     res.json(users);
+//   })
+// );
 
 router.put(
   "/user",

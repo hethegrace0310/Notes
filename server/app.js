@@ -12,14 +12,14 @@ const mongoose = require("mongoose");
 const session = require("express-session");
 const MongoStore = require("connect-mongo"); // MongoDB session store
 
+const sessionSecret = "Haeun Park";
+
 var dbURL =
   process.env.MONGO_URL ||
   "mongodb+srv://haeunpark:8812@cluster0.7jtnv.mongodb.net/test"; // insert your database URL here
 mongoose.connect(dbURL, { useNewUrlParser: true, useUnifiedTopology: true });
 var db = mongoose.connection;
 db.on("error", console.error.bind(console, "MongoDB connection error:"));
-
-const sessionSecret = "Haeun Park";
 
 const store = MongoStore.create({
   mongoUrl: dbURL,
