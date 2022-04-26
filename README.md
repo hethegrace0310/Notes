@@ -32,3 +32,6 @@ I deleted local storage and connect it with API. I worked on the main function. 
 
 ## connect front and back(user)
 I deleted local storage and connect it with API. I worked on the user part. (create, add, and delete notes)
+
+## Handle some minor issues
+I had some minor errors, so I fixed! 
