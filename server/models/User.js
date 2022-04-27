@@ -21,6 +21,9 @@ var UserSchema = new Schema({
     required: true,
     minlength: 6,
   },
+  profileImage: {
+    type: String,
+  },
 });
 
 UserSchema.statics.findAndValidate = async function (email, password) {

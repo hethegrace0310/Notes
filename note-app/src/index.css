@@ -432,7 +432,7 @@ padding: 15px;
   padding: 7px;
   border-radius: 10px;
   color: #ffffff;
-  margin-top: 15px;
+  margin-top: 10px;
   margin-bottom: 15px;
 }
 
@@ -509,3 +509,7 @@ padding: 15px;
 }
 
 
+.errmsg{
+  margin-top:5px;
+  color:red
+}

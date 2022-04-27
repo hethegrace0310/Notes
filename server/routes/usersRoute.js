@@ -9,8 +9,9 @@ const { wrapAsync } = require("../utils/helper");
 router.get(
   "/user", //relative path
   wrapAsync(async function (req, res, next) {
+    // console.log(req);
     const id = req.session.userId; //쿠키에 들어 있ㅡ seesion key를 기반으로 session에서 user id 가져옴
-    // console.log(id);
+    console.log(req);
     if (mongoose.isValidObjectId(id)) {
       //id가 mongoose에서 valid한지 검사
       const user = await User.findById(id);
@@ -79,7 +80,13 @@ router.post(
   "/register",
   wrapAsync(async function (req, res) {
     const { password, email, name } = req.body;
-    const user = new User({ email, password, name });
+    const user = new User({
+      email,
+      password,
+      name,
+      colorScheme: "Light",
+      profileImage: "",
+    });
     await user.save();
     req.session.userId = user._id;
     res.json(user);
@@ -91,9 +98,13 @@ router.post(
   wrapAsync(async function (req, res) {
     const { password, email } = req.body;
     const user = await User.findAndValidate(email, password);
+    console.log(user);
     if (user) {
       req.session.userId = user._id;
+      // req.session.save(() => {
+      // console.log(req.session.userId);
       res.sendStatus(204);
+      // });
     } else {
       res.sendStatus(401);
     }

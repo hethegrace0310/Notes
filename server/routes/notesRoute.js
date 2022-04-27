@@ -10,8 +10,9 @@ const { wrapAsync } = require("../utils/helper");
 //get all notes
 router.get(
   "/notes",
+  isAgent,
   wrapAsync(async function (req, res) {
-    const notes = await Note.find({}).sort({
+    const notes = await Note.find({ writer: req.session.userId }).sort({
       lastUpdatedDate: -1,
     });
     // console.log(notes);
@@ -24,7 +25,8 @@ router.post(
   "/notes",
   wrapAsync(async function (req, res) {
     // console.log("Posted with body: " + JSON.stringify(req.body));
-    // let writer = req.body.writer;
+    let writer = req.session.userId;
+    console.log(writer);
     // if (typeof writer === "string") {
     //   writer = await User.findOne({ name: writer });
     // }
@@ -33,7 +35,7 @@ router.post(
       lastUpdatedDate: new Date(),
       text: req.body.text,
       tags: req.body.tags,
-      // writer: writer,
+      writer: writer,
     });
 
     await newNote.save();
@@ -44,6 +46,7 @@ router.post(
 //update a note
 router.put(
   "/notes/:id",
+  isAgent,
   wrapAsync(async function (req, res) {
     const id = req.params.id;
     // console.log("PUT with id: " + id + ", body: " + JSON.stringify(req.body));
@@ -64,6 +67,7 @@ router.put(
 
 router.delete(
   "/notes/:id",
+  isAgent,
   wrapAsync(async function (req, res) {
     const id = req.params.id;
     const result = await Note.findByIdAndDelete(mongoose.Types.ObjectId(id));

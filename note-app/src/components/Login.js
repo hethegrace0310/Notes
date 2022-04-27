@@ -1,5 +1,7 @@
 import { useRef, useState, useEffect } from "react";
-const Login = () => {
+import { getUserAPI, loginAPI } from "../api/userAPI";
+
+const Login = ({ setUserdata }) => {
   const userRef = useRef();
   const errRef = useRef();
 
@@ -16,8 +18,23 @@ const Login = () => {
   }, [user, pwd]);
 
   const openSignup = () => {
-    // document.getElementById("login").style.display = "none";
     document.getElementById("signup-background").style.display = "block";
+  };
+
+  const login = () => {
+    loginAPI(user, pwd).then((result) => {
+      if (result == true) {
+        window.location.reload(); //!
+        getUserAPI().then((user) => {
+          if (user) {
+            console.log(user);
+          }
+        });
+        console.log("login successful");
+      } else {
+        setErrMsg("Error: Invalid email and/or password");
+      }
+    });
   };
   return (
     <div className="login" id="login">
@@ -60,7 +77,9 @@ const Login = () => {
           >
             {errMsg}
           </div>
-          <button className="login-button">Log in</button>
+          <button className="login-button" onClick={login}>
+            Log in
+          </button>
           <hr />
           <div className="login-signup-button-wrap">
             <button className="login-signup-button" onClick={openSignup}>

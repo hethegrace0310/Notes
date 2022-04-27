@@ -5,8 +5,8 @@ import Right from "./components/Right";
 import Modal from "./components/Modal";
 import Login from "./components/Login";
 import { createNoteAPI, deleteNoteAPI, getNotesAPI } from "./api/noteAPI";
-import Signup from "./components/SignUp";
 import SignUp from "./components/SignUp";
+import { getUserAPI } from "./api/userAPI";
 
 const App = () => {
   const [notes, setNotes] = useState([]);
@@ -25,6 +25,8 @@ const App = () => {
 
   const [visibleSidebar, setVisibleSidebar] = useState(false);
   const [searchText, setSearchText] = useState("");
+
+  const [userdata, setUserdata] = useState();
 
   const layoutRef = useRef(null);
 
@@ -59,7 +61,14 @@ const App = () => {
     setNotes([...notes.filter((eachNote, idx) => idx != seletedId)]);
   };
 
-  //saving notes to local storage
+  useEffect(() => {
+    getUserAPI().then((user) => {
+      if (user) {
+        setUserdata(user);
+      }
+    });
+  }, []);
+
   useEffect(() => {
     const fetchData = async () => {
       const fetchedNote = await getNotesAPI();
@@ -94,35 +103,42 @@ const App = () => {
 
   return (
     <div className="whole-note" id="whole-note" ref={layoutRef}>
-      {/* {((windowWidth <= 500 && visibleSidebar) || windowWidth > 500) && (
-        <Left
-          notes={notes.filter((note) =>
-            note.text.toLowerCase().includes(searchText)
+      {!userdata ? (
+        <>
+          <Login setUserdata={setUserdata} />
+          <SignUp />
+        </>
+      ) : (
+        <>
+          {((windowWidth <= 500 && visibleSidebar) || windowWidth > 500) && (
+            <Left
+              notes={notes.filter((note) =>
+                note.text.toLowerCase().includes(searchText)
+              )}
+              addNewNote={addNewNote}
+              seletedId={seletedId}
+              setSeletedId={setSeletedId}
+              windowWidth={windowWidth}
+              setVisibleSidebar={setVisibleSidebar}
+              searchText={searchText}
+              setSearchText={setSearchText}
+            />
           )}
-          addNewNote={addNewNote}
-          seletedId={seletedId}
-          setSeletedId={setSeletedId}
-          windowWidth={windowWidth}
-          setVisibleSidebar={setVisibleSidebar}
-          searchText={searchText}
-          setSearchText={setSearchText}
-        />
-      )}
-      {((windowWidth <= 500 && !visibleSidebar) || windowWidth > 500) && (
-        <Right
-          deleteNote={deleteNote}
-          notes={notes.filter((note) =>
-            note.text.toLowerCase().includes(searchText)
+          {((windowWidth <= 500 && !visibleSidebar) || windowWidth > 500) && (
+            <Right
+              deleteNote={deleteNote}
+              notes={notes.filter((note) =>
+                note.text.toLowerCase().includes(searchText)
+              )}
+              setNotes={setNotes}
+              seletedId={seletedId}
+              setSeletedId={setSeletedId}
+              setVisibleSidebar={setVisibleSidebar}
+            />
           )}
-          setNotes={setNotes}
-          seletedId={seletedId}
-          setSeletedId={setSeletedId}
-          setVisibleSidebar={setVisibleSidebar}
-        />
+          <Modal profile={profile} setProfile={setProfile} />
+        </>
       )}
-      <Modal profile={profile} setProfile={setProfile} /> */}
-      <Login />
-      <SignUp />
     </div>
   );
 };

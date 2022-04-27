@@ -1,12 +1,16 @@
 const express = require("express");
-const cors = require("cors");
+// const cors = require("cors");
 const usersRoutes = require("./routes/usersRoute");
 const notesRoutes = require("./routes/notesRoute");
 
 const app = express();
 const bodyParser = require("body-parser");
 app.use(bodyParser.json());
-app.use(cors());
+// var corsOptions = {
+//   origin: "*",
+// };
+
+// app.use(cors());
 
 const mongoose = require("mongoose");
 const session = require("express-session");
@@ -36,12 +40,18 @@ const sessionConfig = {
   resave: false,
   saveUninitialized: true,
   cookie: {
+    // secure: true,
     httpOnly: true,
     expires: Date.now() + 1000 * 60 * 60 * 24 * 7,
     maxAge: 1000 * 60 * 60 * 24 * 7,
     // later you would want to add: 'secure: true' once your website is hosted on HTTPS.
   },
 };
+
+// if (app.get("env") === "production") {
+//   app.set("trust proxy", 1); // trust first proxy
+//   sessionConfig.cookie.secure = true; // serve secure cookies
+// }
 
 app.use(session(sessionConfig));
 

@@ -4,7 +4,8 @@ const defaultHeaders = {
   },
 };
 
-const backendURL = "http://localhost:5005";
+// const backendURL = "http://localhost:5005";
+const backendURL = "";
 
 // GET: /notes
 export const getNotesAPI = () => {

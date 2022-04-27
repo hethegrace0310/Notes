@@ -3,27 +3,55 @@ const defaultHeaders = {
     "Content-Type": "application/json; charset=UTF-8",
   },
 };
-const backendURL = "http://localhost:5005";
+// const backendURL = "http://localhost:5005";
+const backendURL = "";
 // POST: /register
-// export const register = (name, email, password) => {
-//   return fetch(`/api/register`, {
-//     ...defaultHeaders,
-//     method: "POST",
-//     body: JSON.stringify({
-//       name: name,
-//       email: email,
-//       password,
-//       password,
-//     }),
-//   }).then((response) => {
-//     if (response.status >= 500) {
-//       return "duplicated";
-//     }
-//     return "sucess";
-//   });
-// };
+export const registerAPI = (name, email, password) => {
+  return fetch(`${backendURL}/api/register`, {
+    ...defaultHeaders,
+    method: "POST",
+    body: JSON.stringify({
+      name: name,
+      email: email,
+      password: password,
+    }),
+  }).then((response) => {
+    if (response.status >= 500) {
+      return "duplicated";
+    }
+    return "sucess";
+  });
+};
 // POST: /login
+export const loginAPI = (email, password) => {
+  return fetch(`${backendURL}/api/login`, {
+    ...defaultHeaders,
+    method: "POST",
+    body: JSON.stringify({
+      email: email,
+      password: password,
+    }),
+  }).then((response) => {
+    if (response.status >= 200 && response.status < 300) {
+      return true;
+    } else {
+      return false;
+    }
+  });
+};
+
 // POST: /logout
+export const logoutAPI = (name, email, password) => {
+  return fetch(`${backendURL}/api/logout`, {
+    ...defaultHeaders,
+    method: "POST",
+    body: JSON.stringify({
+      name: name,
+      email: email,
+      password: password,
+    }),
+  }).then(checkStatus);
+};
 
 // GET: /user
 export const getUserAPI = () => {
