@@ -58,7 +58,6 @@ const SignUp = () => {
               <input
                 className="signup-name"
                 type="text"
-                id="userName"
                 onChange={(e) => setName(e.target.value)}
                 value={name}
                 required
@@ -69,7 +68,6 @@ const SignUp = () => {
               <input
                 className="signup-email"
                 type="email"
-                id="userEmail"
                 autoComplete="off"
                 onChange={(e) => setEmail(e.target.value)}
                 value={email}
@@ -81,7 +79,6 @@ const SignUp = () => {
               <input
                 className="signup-password"
                 type="password"
-                id="userPassword"
                 onChange={(e) => setPwd(e.target.value)}
                 value={pwd}
                 required

@@ -35,7 +35,8 @@ router.post(
       lastUpdatedDate: new Date(),
       text: req.body.text,
       tags: req.body.tags,
-      writer: writer,
+      writer: req.session.userId,
+      // writer: writer,
     });
 
     await newNote.save();
@@ -58,6 +59,8 @@ router.put(
         lastUpdatedDate: req.body.lastUpdatedDate,
         text: req.body.text,
         tags: req.body.tags,
+        writer: req.session.userId,
+        // writer: writer,
       },
       { runValidators: true }
     );

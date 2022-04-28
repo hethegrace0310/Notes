@@ -1,12 +1,10 @@
 import { useRef, useState, useEffect } from "react";
 import { getUserAPI, loginAPI } from "../api/userAPI";
 
-const Login = ({ setUserdata }) => {
+const Login = ({ user, setUser, pwd, setPwd, setUserdata }) => {
   const userRef = useRef();
   const errRef = useRef();
 
-  const [user, setUser] = useState("");
-  const [pwd, setPwd] = useState("");
   const [errMsg, setErrMsg] = useState("");
 
   useEffect(() => {
@@ -24,10 +22,11 @@ const Login = ({ setUserdata }) => {
   const login = () => {
     loginAPI(user, pwd).then((result) => {
       if (result == true) {
-        window.location.reload(); //!
+        window.location.reload();
         getUserAPI().then((user) => {
           if (user) {
             console.log(user);
+            setUserdata(user);
           }
         });
         console.log("login successful");
@@ -51,7 +50,6 @@ const Login = ({ setUserdata }) => {
               <div className="login-email">Email</div>
               <input
                 type="email"
-                id="userEmail"
                 ref={userRef}
                 autoComplete="off"
                 onChange={(e) => setUser(e.target.value)}
@@ -63,7 +61,6 @@ const Login = ({ setUserdata }) => {
               <div className="login-password">Password</div>
               <input
                 type="password"
-                id="userPassword"
                 onChange={(e) => setPwd(e.target.value)}
                 value={pwd}
                 required

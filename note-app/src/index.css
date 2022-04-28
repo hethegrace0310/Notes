@@ -110,13 +110,10 @@ button {
   background-color: #ffffff;
 }
 
-.profile-picture-button {
-  background-image: url("img/profile.jpg");
+.profile-img{
   border-radius: 70%;
   width: 38px;
   height: 38px;
-  background-position: center;
-  background-size: cover;
 }
 
 .my-notes-title {

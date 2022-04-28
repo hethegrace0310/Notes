@@ -41,30 +41,21 @@ export const loginAPI = (email, password) => {
 };
 
 // POST: /logout
-export const logoutAPI = (name, email, password) => {
+export const logoutAPI = () => {
   return fetch(`${backendURL}/api/logout`, {
     ...defaultHeaders,
     method: "POST",
-    body: JSON.stringify({
-      name: name,
-      email: email,
-      password: password,
-    }),
+    // body: JSON.stringify({
+    //   name: name,
+    //   email: email,
+    //   password: password,
+    // }),
   }).then(checkStatus);
 };
 
 // GET: /user
 export const getUserAPI = () => {
   return fetch(`${backendURL}/api/user`, {
-    ...defaultHeaders,
-  })
-    .then(checkStatus)
-    .then(parseJSON);
-};
-
-// GER: /user/currentuser
-export const getCurrentUserAPI = (id) => {
-  return fetch(`${backendURL}/api/user/${id}`, {
     ...defaultHeaders,
   })
     .then(checkStatus)
@@ -78,6 +69,19 @@ export const updateUserAPI = (user) => {
     method: "PUT",
     body: JSON.stringify(user),
   }).then(checkStatus);
+};
+
+export const uploadImageToCloudinaryAPIMethod = (formData) => {
+  const cloudName = "haeunpark"; // TODO: Write in your own Cloudinary account
+  return fetch(`https://api.cloudinary.com/v1_1/${cloudName}/upload`, {
+    // We do NOT want to set the default headers – the formData will automatically set the
+    // headers to tell the server of the data type (which is different than the JSON
+    // standard all the other API calls have been sending
+    method: "POST",
+    body: formData,
+  })
+    .then(checkStatus)
+    .then(parseJSON);
 };
 
 function checkStatus(response) {

@@ -50,7 +50,7 @@ export const deleteNoteAPI = (id) => {
 };
 
 function checkStatus(response) {
-  console.log(response);
+  // console.log(response);
   if (response.status >= 200 && response.status < 300) {
     return response;
   } else {
@@ -62,6 +62,6 @@ function checkStatus(response) {
 }
 
 function parseJSON(response) {
-  console.log(response);
+  // console.log(response);
   return response.json(); //response중에 json 응답만 걸러준다.
 }

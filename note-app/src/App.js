@@ -15,9 +15,10 @@ const App = () => {
     name: "",
     email: "",
     colorScheme: "",
+    img: "",
   });
 
-  console.log(notes);
+  // console.log(notes);
 
   const [seletedId, setSeletedId] = useState(-1);
 
@@ -27,6 +28,9 @@ const App = () => {
   const [searchText, setSearchText] = useState("");
 
   const [userdata, setUserdata] = useState();
+
+  const [user, setUser] = useState("");
+  const [pwd, setPwd] = useState("");
 
   const layoutRef = useRef(null);
 
@@ -62,12 +66,22 @@ const App = () => {
   };
 
   useEffect(() => {
-    getUserAPI().then((user) => {
-      if (user) {
-        setUserdata(user);
+    const autoLogin = async () => {
+      try {
+        const userInfo = await getUserAPI();
+        if (userInfo) {
+          setUserdata(userInfo);
+        }
+      } catch (error) {
+        console.log("there is no session");
       }
-    });
+    };
+    autoLogin();
   }, []);
+
+  useEffect(() => {
+    setProfile(userdata);
+  }, [userdata]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -103,9 +117,15 @@ const App = () => {
 
   return (
     <div className="whole-note" id="whole-note" ref={layoutRef}>
-      {!userdata ? (
+      {!profile ? (
         <>
-          <Login setUserdata={setUserdata} />
+          <Login
+            user={user}
+            setUser={setUser}
+            pwd={pwd}
+            setPwd={setPwd}
+            setUserdata={setUserdata}
+          />
           <SignUp />
         </>
       ) : (
@@ -122,6 +142,7 @@ const App = () => {
               setVisibleSidebar={setVisibleSidebar}
               searchText={searchText}
               setSearchText={setSearchText}
+              profile={profile}
             />
           )}
           {((windowWidth <= 500 && !visibleSidebar) || windowWidth > 500) && (
@@ -136,7 +157,11 @@ const App = () => {
               setVisibleSidebar={setVisibleSidebar}
             />
           )}
-          <Modal profile={profile} setProfile={setProfile} />
+          <Modal
+            profile={profile}
+            setProfile={setProfile}
+            setUserdata={setUserdata}
+          />
         </>
       )}
     </div>

@@ -11,6 +11,7 @@ const Left = ({
   setVisibleSidebar,
   searchText,
   setSearchText,
+  profile,
 }) => {
   const openModal = () => {
     document.getElementById("modal-background").style.display = "block";
@@ -54,7 +55,25 @@ const Left = ({
       id="left"
     >
       <div className="main-title-box">
-        <button className="profile-picture-button" onClick={openModal}></button>
+        {/* <img
+          src="/img/profile.png"
+          className="profile-img clickable"
+          onClick={openModal}
+        ></img> */}
+        {!(profile.profileImage == "") ? (
+          <img
+            src={profile?.profileImage}
+            alt="profile"
+            className="profile-img clickable"
+            onClick={openModal}
+          />
+        ) : (
+          <img
+            src="/img/initial-img.png"
+            className="profile-img clickable"
+            onClick={openModal}
+          ></img>
+        )}
         <button className="my-notes-title">My notes</button>
         <button className="add-new-note">
           <div className="material-icons" onClick={addNewNote}>
@@ -76,7 +95,7 @@ const Left = ({
           {notes.map((note, idx) => (
             <Note
               key={`note-${idx}`}
-              textTitle={note.textTitle}
+              textTitle={note.textTitle ? note.textTitle : "New Note"}
               lastUpdatedDate={getTimeAndDate(note.lastUpdatedDate)}
               text={note.text}
               onClick={() => {

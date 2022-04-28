@@ -1,27 +1,13 @@
 import { useState } from "react";
 import React, { useEffect } from "react";
-import { getCurrentUserAPI, updateUserAPI } from "../api/userAPI";
+import {
+  logoutAPI,
+  updateUserAPI,
+  uploadImageToCloudinaryAPIMethod,
+} from "../api/userAPI";
 
-const DEFAULT_SOL_ID = "62584d5ca227c82e9c3c4b0d";
-
-const Modal = ({ profile, setProfile }) => {
-  useEffect(() => {
-    let id = localStorage.getItem("userId");
-    if (!id) {
-      id = DEFAULT_SOL_ID;
-      localStorage.setItem("userId", DEFAULT_SOL_ID);
-    }
-    function fetchData() {
-      getCurrentUserAPI(id)
-        .then((profile) => {
-          setProfile(profile);
-        })
-        .catch((err) => {
-          console.error("Error retrieving note data: " + err);
-        });
-    }
-    fetchData();
-  }, []);
+const Modal = ({ profile, setProfile, setUserdata }) => {
+  const [img, setImg] = useState(null);
 
   const handleChangeProfile = (e) => {
     //Update PUT
@@ -30,22 +16,52 @@ const Modal = ({ profile, setProfile }) => {
       [e.target.name]: e.target.value,
     }));
   };
+
   const onSave = async (e) => {
     e.preventDefault();
-    await updateUserAPI({ ...profile, _id: DEFAULT_SOL_ID })
+    console.log("New File Selected");
+
+    let newImg = profile.profileImage;
+
+    if (img) {
+      const formData = new FormData();
+      // TODO: You need to create an "unsigned" upload preset on your Cloudinary account
+      // Then enter the text for that here.
+      const unsignedUploadPreset = "hwnhe2xc";
+      formData.append("file", img);
+      formData.append("upload_preset", unsignedUploadPreset);
+
+      console.log("Cloudinary upload");
+      const response = await uploadImageToCloudinaryAPIMethod(formData);
+      console.log("Upload success");
+      console.dir(response);
+
+      newImg = response.url;
+    } else if (img == "") {
+      newImg = "";
+    }
+
+    // Now the URL gets saved to the author
+    const updatedProfile = { ...profile, profileImage: newImg };
+    // setProfile(updatedProfile);
+    updateUserAPI(updatedProfile)
       .then((response) => {
+        setProfile(updatedProfile);
         console.log("Updated user on the server");
       })
       .catch((err) => {
         console.log(profile);
         console.error("Error updating user data: " + err);
       });
+
     closeModal();
-    console.log(profile);
   };
 
   const closeModal = () => {
     document.getElementById("modal-background").style.display = "none";
+    console.log(profile);
+    setImg(null);
+    // window.location.reload();
   };
 
   const saveUserName = (changeUserName) => {
@@ -70,6 +86,32 @@ const Modal = ({ profile, setProfile }) => {
     });
   };
 
+  const handleImageSelected = (event) => {
+    console.log("New File Selected");
+    if (event.target.files && event.target.files[0]) {
+      setImg(event.target.files[0]);
+    }
+  };
+
+  const handleRemoveImage = () => {
+    if (profile.profileImage) {
+      // let updatedProfile = { ...profile, profileImage: "" };
+      // setProfile(updatedProfile);
+      setImg("");
+    }
+  };
+
+  const logout = async () => {
+    console.log("logout");
+    await logoutAPI();
+    // setUserdata(undefined);
+    setProfile(undefined);
+  };
+
+  useEffect(() => {
+    console.log(img);
+  }, [img]);
+
   return (
     <div className="modal-background" id="modal-background">
       <div className="additional-modal-div">
@@ -83,13 +125,40 @@ const Modal = ({ profile, setProfile }) => {
             </div>
             <div className="edit-profile-pic">
               <div className="onemore-edit-profile-pic">
-                <div className="profile-picture-button"></div>
+                <div>
+                  <img
+                    src={
+                      img
+                        ? URL.createObjectURL(img)
+                        : !(profile.profileImage == "") && img != ""
+                        ? profile?.profileImage
+                        : "/img/initial-img.png"
+                    }
+                    alt="profile"
+                    className="profile-img"
+                  />
+                </div>
+              </div>
+              <div style={{ display: "flex" }}>
+                <label className="add-new-image clickable" htmlFor="input-file">
+                  Add New Image
+                </label>
+                <input
+                  style={{ display: "none" }}
+                  type="file"
+                  name="image"
+                  accept="image/*"
+                  id="input-file"
+                  onChange={handleImageSelected}
+                />
               </div>
               <div>
-                <div className="add-new-image clickable">Add New Image</div>
-              </div>
-              <div>
-                <div className="remove-image clickable">Remove Image</div>
+                <div
+                  className="remove-image clickable"
+                  onClick={handleRemoveImage}
+                >
+                  Remove Image
+                </div>
               </div>
             </div>
 
@@ -132,7 +201,12 @@ const Modal = ({ profile, setProfile }) => {
                   className="b-edit-profile-save"
                   onClick={onSave}
                 />
-                <div className="b-edit-profile-logout clickable">Logout</div>
+                <div
+                  className="b-edit-profile-logout clickable"
+                  onClick={logout}
+                >
+                  Logout
+                </div>
               </div>
             </form>
           </div>
