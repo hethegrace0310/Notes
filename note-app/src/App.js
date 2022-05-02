@@ -7,6 +7,10 @@ import Login from "./components/Login";
 import { createNoteAPI, deleteNoteAPI, getNotesAPI } from "./api/noteAPI";
 import SignUp from "./components/SignUp";
 import { getUserAPI } from "./api/userAPI";
+import {
+  loadModel,
+  determineRelatednessOfSentences,
+} from "./universalSentenceEncoder";
 
 const App = () => {
   const [notes, setNotes] = useState([]);
@@ -34,6 +38,9 @@ const App = () => {
 
   const layoutRef = useRef(null);
 
+  const [isCreatedNumber, setIsCreatedNumber] = useState(0);
+  const [isDeletedNumber, setIsDeletedNumber] = useState(0);
+
   //addNewNote
   const addNewNote = async (text) => {
     const newNote = {
@@ -43,8 +50,6 @@ const App = () => {
       tags: [],
     };
 
-    setSeletedId(0);
-
     setSearchText("");
 
     const returnedNote = await createNoteAPI("New Note", "", []);
@@ -52,17 +57,21 @@ const App = () => {
 
     const newNoteList = [returnedNote, ...notes];
     setNotes(newNoteList);
+
+    setIsCreatedNumber((prev) => prev + 1);
   };
 
   //deleteNote
   const deleteNote = async () => {
+    await deleteNoteAPI(notes[seletedId]._id);
+
     if (seletedId === notes.length - 1) {
       setSeletedId(notes.length - 2);
     }
 
-    await deleteNoteAPI(notes[seletedId]._id);
-
     setNotes([...notes.filter((eachNote, idx) => idx != seletedId)]);
+
+    setIsDeletedNumber((prev) => prev + 1);
   };
 
   useEffect(() => {
@@ -94,9 +103,89 @@ const App = () => {
     fetchData();
   }, []);
 
-  // useEffect(() => {
-  //   localStorage.setItem("notes-data", JSON.stringify(notes));
-  // }, [notes]);
+  useEffect(() => {
+    console.log("the status state afftected!");
+
+    const fetchSimilars = async () => {
+      if (isCreatedNumber === 0) {
+        return;
+      }
+      setSeletedId(0);
+      const comparedNote = notes.map((note) => note.text);
+      const ret = await determineRelatednessOfSentences(
+        comparedNote,
+        seletedId
+      );
+
+      console.log("result: ", ret);
+      for (let i = 0; i < ret.length; i++) {
+        if (ret[i].score >= 0.5) {
+          document.getElementsByClassName("a-content")[
+            i
+          ].style.backgroundColor = "#e1fff9";
+          document.getElementsByClassName("similarity")[i].style.display =
+            "block";
+          if (i == seletedId) {
+            document.getElementsByClassName("a-content")[
+              i
+            ].style.backgroundColor = "#e5f1fd";
+            document.getElementsByClassName("similarity")[i].style.display =
+              "none";
+          }
+        } else {
+          document.getElementsByClassName("a-content")[
+            i
+          ].style.backgroundColor = "#ffffff";
+          document.getElementsByClassName("similarity")[i].style.display =
+            "none";
+        }
+      }
+    };
+
+    fetchSimilars();
+  }, [isCreatedNumber]);
+
+  useEffect(() => {
+    console.log("the status state afftected!");
+    const fetchSimilars = async () => {
+      if (isDeletedNumber === 0) {
+        return;
+      }
+      const comparedNote = notes.map((note) => note.text);
+      const ret = await determineRelatednessOfSentences(
+        comparedNote,
+        seletedId
+      );
+
+      console.log("result: ", ret);
+      for (let i = 0; i < ret.length; i++) {
+        if (ret[i].score >= 0.5) {
+          if (document.getElementsByClassName("a-content")[i]) {
+            document.getElementsByClassName("a-content")[
+              i
+            ].style.backgroundColor = "#e1fff9";
+            document.getElementsByClassName("similarity")[i].style.display =
+              "block";
+            if (i == seletedId) {
+              document.getElementsByClassName("a-content")[
+                i
+              ].style.backgroundColor = "#e5f1fd";
+              document.getElementsByClassName("similarity")[i].style.display =
+                "none";
+            }
+          }
+        } else {
+          document.getElementsByClassName("a-content")[
+            i
+          ].style.backgroundColor = "#ffffff";
+          document.getElementsByClassName("similarity")[i].style.display =
+            "none";
+        }
+      }
+    };
+
+    fetchSimilars();
+  }, [isDeletedNumber]);
 
   const getWidth = () => {
     if (layoutRef.current) {
@@ -109,11 +198,58 @@ const App = () => {
     // mount 단계
     getWidth();
     window.addEventListener("resize", getWidth);
+    loadModel();
     return () => {
       //unmount단계에서 실행.
       window.removeEventListener("resize", getWidth);
     };
   }, []);
+
+  useEffect(() => {
+    const fetchSimilars = async () => {
+      console.log("selectedId: ", seletedId);
+      console.log("notes", notes);
+      console.log("notes[selectedId]", notes[seletedId]);
+
+      const comparedNote = notes.map((note) => note.text);
+      const ret = await determineRelatednessOfSentences(
+        comparedNote,
+        seletedId
+      );
+
+      if (!ret) {
+        return;
+      }
+
+      console.log("result: ", ret);
+      for (let i = 0; i < ret.length; i++) {
+        if (ret[i].score >= 0.5) {
+          if (document.getElementsByClassName("a-content")[i]) {
+            document.getElementsByClassName("a-content")[
+              i
+            ].style.backgroundColor = "#e1fff9";
+            document.getElementsByClassName("similarity")[i].style.display =
+              "block";
+            if (i == seletedId) {
+              document.getElementsByClassName("a-content")[
+                i
+              ].style.backgroundColor = "#e5f1fd";
+              document.getElementsByClassName("similarity")[i].style.display =
+                "none";
+            }
+          }
+        } else {
+          document.getElementsByClassName("a-content")[
+            i
+          ].style.backgroundColor = "#ffffff";
+          document.getElementsByClassName("similarity")[i].style.display =
+            "none";
+        }
+      }
+    };
+
+    fetchSimilars();
+  }, [seletedId]);
 
   return (
     <div className="whole-note" id="whole-note" ref={layoutRef}>

@@ -128,10 +128,18 @@ button {
   padding-right: 0;
   padding-left: 0;
 }
-
+.time-and-sim{
+  display: flex;
+  justify-content: space-between;
+}
 .a-content {
   border-bottom: dotted 1px black;
   padding: 5px;
+}
+.similarity{
+  font-size: 12px;
+  font-weight: bold;
+  display: none;
 }
 .search-icon {
   float: left;

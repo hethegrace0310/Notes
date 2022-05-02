@@ -11,7 +11,10 @@ const Note = ({ lastUpdatedDate, text, textTitle, onClick, isSelected }) => {
       onClick={onClick}
     >
       <div className="content-title">{textTitle}</div>
-      <div className="time-and-date">{lastUpdatedDate}</div>
+      <div className="time-and-sim">
+        <div className="time-and-date">{lastUpdatedDate}</div>
+        <div className="similarity"> similar</div>
+      </div>
     </div>
   );
 };
