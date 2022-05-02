@@ -35,3 +35,18 @@ I deleted local storage and connect it with API. I worked on the user part. (cre
 
 ## Handle some minor issues
 I had some minor errors, so I fixed! 
+
+
+# README for Assignment4
+
+## make login & signup page / make login and signup page
+I commited twice because I thought it did not push. For here, I made login and signup page just for frontend
+
+## connect back and front: login & signup
+I connected backend and frontend for login and sign up
+
+## completed logout, connect each user and each notepad
+I made whole functions for logout, login. And also I dealt with multiple users. 
+
+## Determining Related Notes
+With universalSentenceEncoder.js, I dealt with similarity. However, it really slow to selecte similar notes. 
