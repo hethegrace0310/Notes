@@ -50,3 +50,8 @@ I made whole functions for logout, login. And also I dealt with multiple users.
 
 ## Determining Related Notes
 With universalSentenceEncoder.js, I dealt with similarity. However, it really slow to selecte similar notes. 
+
+-----
+## Information of a user (just for convenience)
+email: stella@gmail.com
+password: 1234567890
