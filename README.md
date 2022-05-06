@@ -53,5 +53,5 @@ With universalSentenceEncoder.js, I dealt with similarity. However, it really sl
 
 -----
 ## Information of a user (just for convenience)
-email: stella@gmail.com
+email: stella@gmail.com /
 password: 1234567890
